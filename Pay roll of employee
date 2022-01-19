@@ -1,0 +1,45 @@
+#include <stdio.h>
+int main ()
+{
+  FILE *fr;
+  int id;
+  char name[30];
+  float salary, HRA, DA, income_tax, net_pay;
+  int x, i;
+  printf ("Enter number of employees\n");
+  scanf ("%d", &x);
+  fr = fopen ("payroll.txt", "w");
+  for (i = 1; i <= x; i++)
+    {
+      printf ("Enter name of employee\n");
+      scanf ("%s", name);
+      printf ("Enter employee ID\n");
+      scanf ("%d", &id);
+      printf ("Enter employee salary\n");
+      scanf ("%f", &salary);
+      fprintf (fr,"Name:%s\nID:%d\nSalary:%f\n",name,id,salary);
+    }
+  fclose (fr);
+  fr = fopen ("payroll.txt", "r");
+  for (i = 1; i <= x; i++)
+    {
+      fscanf (fr,"%s %d %f",name,&id,&salary);
+      printf("EMPLOYEE DETAILS\nEmployee number: %d\nEmployee name and id: %s %d\nEmployee salary: %0.2f\n",i,name,id,salary);
+      HRA = 0.15 * salary;
+      DA = 0.5 * salary;
+      if(salary<250000)
+      income_tax=0;
+      else if(salary>=250001 && salary<500000)
+      income_tax=0.05*salary;
+      else if(salary>=500001 && salary<750000)
+      income_tax=12500 + (0.1*salary);
+      else if(salary>=750001 && salary<1000000)
+      income_tax=37500 + (0.15*salary);
+      else if(salary>=1000001)
+      income_tax=75000 + (0.25*salary);
+      net_pay = salary + HRA + DA - income_tax;
+      printf ("HRA: %0.2f\nDA: %0.2f\nTax: %0.2f\nFinal salary: %0.2f\n", HRA,DA, income_tax, net_pay);
+    }
+  fclose (fr);
+  return 0;
+}
